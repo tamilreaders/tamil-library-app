@@ -390,7 +390,7 @@
                             <span class="counter-pulse"></span> நேரடி பதிவிறக்கங்கள்
                         </span>
                         <span class="counter-value" id="counterVal">
-                            1,000
+                            1,020
                         </span>
                     </div>
                 </div>
@@ -474,8 +474,8 @@
         const counterValEl = document.getElementById('counterVal');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        // 1. Initialize from local storage or default 1000
-        let count = parseInt(localStorage.getItem('standalone_apk_downloads') || '1000', 10);
+        // 1. Initialize from local storage or default 1020
+        let count = parseInt(localStorage.getItem('standalone_apk_downloads') || '1020', 10);
         counterValEl.innerText = count.toLocaleString();
 
         // 2. Fetch live download count from GitHub Releases API
@@ -485,7 +485,7 @@
                 if (data && data.assets && data.assets.length > 0) {
                     const apkAsset = data.assets.find(asset => asset.name === 'TamilLibrary.apk');
                     if (apkAsset) {
-                        const total = 1000 + apkAsset.download_count;
+                        const total = 1020 + apkAsset.download_count;
                         count = total;
                         counterValEl.innerText = count.toLocaleString();
                         localStorage.setItem('standalone_apk_downloads', count.toString());
