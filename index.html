@@ -474,9 +474,25 @@
         const counterValEl = document.getElementById('counterVal');
         const downloadBtn = document.getElementById('downloadBtn');
 
-        // Initialize counter
+        // 1. Initialize from local storage or default 1000
         let count = parseInt(localStorage.getItem('standalone_apk_downloads') || '1000', 10);
         counterValEl.innerText = count.toLocaleString();
+
+        // 2. Fetch live download count from GitHub Releases API
+        fetch('https://api.github.com/repos/tamilreaders/tamil-library-app/releases/latest')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.assets && data.assets.length > 0) {
+                    const apkAsset = data.assets.find(asset => asset.name === 'TamilLibrary.apk');
+                    if (apkAsset) {
+                        const total = 1000 + apkAsset.download_count;
+                        count = total;
+                        counterValEl.innerText = count.toLocaleString();
+                        localStorage.setItem('standalone_apk_downloads', count.toString());
+                    }
+                }
+            })
+            .catch(err => console.error('Error fetching download count:', err));
 
         downloadBtn.addEventListener('click', () => {
             count += 1;
